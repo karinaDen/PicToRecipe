@@ -8,11 +8,6 @@ from torch import *
 
 from model import *
 
-# extract content from the file by its absolute path
-def extract_file_content(file_path):
-    with open(file_path, 'r') as file:
-        content = file.read()
-    return content.split("\n")[:-1] 
 
 ds_path = './data/food-101'
 classes = extract_file_content(ds_path + '/meta/classes.txt')
@@ -69,8 +64,15 @@ if uploaded_file != None:
     # and generate prediction using loaded model
     predicted_class_index = torch.argmax(loaded_densenet201(transform(image).unsqueeze(0)))
     predicted_class = classes[predicted_class_index]
+    food = predicted_class.replace("_", " ")
 
     # Show predicted class name to user
-    st.write('The food in the image is:', predicted_class)
+    st.write('The food in the image is:', food)
+
+num_servings = st.number_input('How many servings do you need?', min_value=1, max_value=10, value=4, step=1)
+
+marketplace = st.selectbox('Where do you want to buy ingredients?', ['yandex.market', 'ozon.ru', 'wildberries.ru'])
+
+st.write = generate_recipe(num_servings, food, marketplace)
 
     
