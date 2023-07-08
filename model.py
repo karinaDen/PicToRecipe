@@ -34,15 +34,15 @@ def extract_file_content(file_path):
     return content.split("\n")[:-1] 
 
 
-def generate_recipe(num_servings, food, marketplace):
+def generate_recipe(num_servings, food):
     response = openai.Completion.create(
     model="text-davinci-003",
-    prompt="Write a recipe for {food} for {num_servings} people on english and find russian ingredients on {marketplace} with links?",
+    prompt="Write a recipe for" + food + "for" + str(num_servings) + "servings",
     temperature=0.3,
-    max_tokens=120,
+    max_tokens=420,
     top_p=1.0,
     frequency_penalty=0.0,
     presence_penalty=0.0
     )
-    return response
+    return response["choices"][0]["text"]
 
