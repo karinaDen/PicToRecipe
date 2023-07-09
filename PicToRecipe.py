@@ -1,32 +1,19 @@
 import streamlit as st
-from PIL import Image,ImageFilter
-
-import torchvision.transforms as transforms
+from PIL import Image, ImageFilter
 from torchvision import *
+from torchvision import transforms
 from torch import *
-
-
 from model import *
 
 
 ds_path = './data/food-101'
+
 classes = extract_file_content(ds_path + '/meta/classes.txt')
 
-
-
-
-st.write('''<style>
-            body{
-            text-align:center;
-            background-color:#ACDDDE;
-
-            }
-
-            </style>''', unsafe_allow_html=True)
-
-
-
-st.title('PicToRecipe')
+logo = Image.open('logo-no-background.png')
+col1, col2, col3 = st.columns([1.25, 0.5, 1.25])
+col2.image(logo, use_column_width=True)
+st.markdown("<h1 style='font-size: 180%; text-align: center; color: #fc9551;'>Welcome to PicToRecipe!</h1>", unsafe_allow_html=True)
 
 transform = transforms.Compose([
     transforms.Resize(240),
@@ -36,21 +23,15 @@ transform = transforms.Compose([
 ])
 
 
-#loading the model
+# loading the model
 loaded_densenet201 = Net()
-loaded_densenet201.load_state_dict(torch.load('densenet201.pt',map_location=torch.device('cpu')))
+loaded_densenet201.load_state_dict(torch.load('resnext-101.pt', map_location=torch.device('cpu')))
 loaded_densenet201.eval()
-
-st.text('model loaded using densenet201')
-
-
+st.text('ResNeXt-101 model loaded')
 
 
 file_type = 'jpg'
-
-
-uploaded_file = st.file_uploader("Choose a  file",type = file_type)
-
+uploaded_file = st.file_uploader("Choose a file", type=file_type)
 
 if uploaded_file != None:
 
@@ -61,17 +42,15 @@ if uploaded_file != None:
     st.image(image)
 
     # Convert uploaded image to PyTorch tensor using defined transforms,
-    # and generate prediction using loaded model
+    # and generate prediction using a loaded model
     predicted_class_index = torch.argmax(loaded_densenet201(transform(image).unsqueeze(0)))
     predicted_class = classes[predicted_class_index]
     food = predicted_class.replace("_", " ")
 
-    # Show predicted class name to user
+    # Show the predicted class name to a user
     st.write('The food in the image is:', food)
 
     num_servings = st.number_input('How many servings do you need?', min_value=1, max_value=10, value=4, step=1)
 
-    marketplace = st.selectbox('Where do you want to buy ingredients?', ['yandex.market', 'ozon.ru', 'wildberries.ru'])
-
-    st.write( generate_recipe(num_servings, food, marketplace))
-
+    st.write(generate_recipe(num_servings, food))
+    
