@@ -8,7 +8,6 @@ import openai
 
 openai.api_key_path = 'api_key.txt'
 
-
 class Net(nn.Module):
     def __init__(self, num_classes=101):
         super(Net, self).__init__()
