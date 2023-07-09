@@ -69,10 +69,9 @@ if uploaded_file != None:
     # Show predicted class name to user
     st.write('The food in the image is:', food)
 
-num_servings = st.number_input('How many servings do you need?', min_value=1, max_value=10, value=4, step=1)
+    num_servings = st.number_input('How many servings do you need?', min_value=1, max_value=10, value=4, step=1)
 
-marketplace = st.selectbox('Where do you want to buy ingredients?', ['yandex.market', 'ozon.ru', 'wildberries.ru'])
+    marketplace = st.selectbox('Where do you want to buy ingredients?', ['yandex.market', 'ozon.ru', 'wildberries.ru'])
 
-st.write = generate_recipe(num_servings, food, marketplace)
+    st.write( generate_recipe(num_servings, food, marketplace))
 
-    
