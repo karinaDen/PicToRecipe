@@ -25,7 +25,6 @@ transform = transforms.Compose([
 loaded_densenet201 = Net()
 loaded_densenet201.load_state_dict(torch.load('densenet201.pt', map_location=torch.device('cpu')))
 loaded_densenet201.eval()
-st.text('densenet201 model loaded')
 
 
 file_type = 'jpg'
