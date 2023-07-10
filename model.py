@@ -5,8 +5,9 @@ from torch import nn
 from PIL import Image
 import numpy as np
 import openai
+import streamlit as st
 
-openai.api_key_path = 'api_key.txt'
+openai.api_key_path = st.secrets["API_KEY"]
 
 
 
