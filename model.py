@@ -7,7 +7,7 @@ import numpy as np
 import openai
 import streamlit as st
 
-openai.api_key_path = st.secrets["API_KEY"]
+openai.api_key = st.secrets["API_KEY"]
 
 
 
