@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image,ImageFilter
+import gdown
 
 import torchvision.transforms as transforms
 from torchvision import *
@@ -11,7 +12,9 @@ from model import *
 
 ds_path = './data/food-101'
 classes = extract_file_content(ds_path + '/meta/classes.txt')
-
+url = 'https://drive.google.com/u/0/uc?id=1B_6o-vDMjxO3_BME-JNdH9ETQXPBPEj5&export=download'
+output = 'resnext-101.pt'
+gdown.download(url, output, quiet=False)
 
 
 
@@ -26,7 +29,9 @@ st.write('''<style>
 
 
 
-st.title('PicToRecipe')
+st.header('PicToRecipe')
+
+
 
 transform = transforms.Compose([
     transforms.Resize(240),
@@ -38,10 +43,10 @@ transform = transforms.Compose([
 
 #loading the model
 loaded_densenet201 = Net()
-loaded_densenet201.load_state_dict(torch.load('densenet201.pt',map_location=torch.device('cpu')))
+loaded_densenet201.load_state_dict(torch.load('resnext-101.pt',map_location=torch.device('cpu')))
 loaded_densenet201.eval()
 
-st.text('model loaded using densenet201')
+st.text('model loaded using resnext-101')
 
 
 
@@ -69,10 +74,9 @@ if uploaded_file != None:
     # Show predicted class name to user
     st.write('The food in the image is:', food)
 
-num_servings = st.number_input('How many servings do you need?', min_value=1, max_value=10, value=4, step=1)
+    num_servings = st.number_input('How many servings do you need?', min_value=1, max_value=10, value=4, step=1)
 
-marketplace = st.selectbox('Where do you want to buy ingredients?', ['yandex.market', 'ozon.ru', 'wildberries.ru'])
+    marketplace = st.selectbox('Where do you want to buy ingredients?', ['yandex.market', 'ozon.ru', 'wildberries.ru'])
 
-st.write = generate_recipe(num_servings, food, marketplace)
+    st.write( generate_recipe(num_servings, food, marketplace))
 
-    
