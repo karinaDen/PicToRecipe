@@ -6,9 +6,7 @@ from torch import *
 from model import *
 
 
-ds_path = './data/food-101'
-
-classes = extract_file_content(ds_path + '/meta/classes.txt')
+classes = extract_file_content('classes.txt')
 
 logo = Image.open('logo-no-background.png')
 col1, col2, col3 = st.columns([1.25, 0.5, 1.25])

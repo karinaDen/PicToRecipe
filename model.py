@@ -8,19 +8,7 @@ import openai
 
 openai.api_key_path = 'api_key.txt'
 
-def download_dataset():
 
-    # Download the dataset
-    !wget http://data.vision.ee.ethz.ch/cvl/food-101.tar.gz
-
-    # Unzip the dataset
-    !tar -xzf food-101.tar.gz
-
-    # Remove the tar file
-    !rm food-101.tar.gz
-
-    # Move the dataset to the data folder
-    !mv food-101 da
 
 class Net(nn.Module):
     def __init__(self, num_classes=101):
