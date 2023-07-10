@@ -1,6 +1,6 @@
 import torchvision
 import torch
-from torchvision.models import resnext101_64x4d, ResNeXt101_64X4D_Weights
+from torchvision.models import resnext101_64x4d, ResNeXt101_64X4D_Weights, densenet201
 from torch import nn
 from PIL import Image
 import numpy as np
@@ -11,15 +11,23 @@ openai.api_key_path = 'api_key.txt'
 
 
 class Net(nn.Module):
+    # def __init__(self, num_classes=101):
+    #     super(Net, self).__init__()
+    #     self.net = resnext101_64x4d(weights=ResNeXt101_64X4D_Weights.DEFAULT,
+    #                                 progress=True)
+    #     self.net.trainable = False
+    #     self.net.fc = nn.Sequential(nn.Linear(2048, 1024),
+    #                                 nn.ReLU(),
+    #                                 nn.Dropout(p=0.3),
+    #                                 nn.Linear(1024, num_classes))
     def __init__(self, num_classes=101):
-        super(Net, self).__init__()
-        self.net = resnext101_64x4d(weights=ResNeXt101_64X4D_Weights.DEFAULT,
-                                    progress=True)
-        self.net.trainable = False
-        self.net.fc = nn.Sequential(nn.Linear(2048, 1024),
-                                    nn.ReLU(),
-                                    nn.Dropout(p=0.3),
-                                    nn.Linear(1024, num_classes))
+            super(Net, self).__init__()
+            self.net = densenet201(pretrained=True,progress=True)
+            self.net.trainable = False
+            self.net.fc = nn.Sequential(nn.Linear(1000, 512),
+                                        nn.LeakyReLU(),
+                                        nn.Dropout(p=0.4),
+                                        nn.Linear(512, num_classes))
 
     def forward(self, x):
         return self.net(x)
