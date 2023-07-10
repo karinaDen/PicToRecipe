@@ -25,9 +25,9 @@ transform = transforms.Compose([
 
 # loading the model
 loaded_densenet201 = Net()
-loaded_densenet201.load_state_dict(torch.load('resnext-101.pt', map_location=torch.device('cpu')))
+loaded_densenet201.load_state_dict(torch.load('densenet201.pt', map_location=torch.device('cpu')))
 loaded_densenet201.eval()
-st.text('ResNeXt-101 model loaded')
+st.text('densenet201 model loaded')
 
 
 file_type = 'jpg'
