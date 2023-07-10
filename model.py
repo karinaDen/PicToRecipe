@@ -43,6 +43,7 @@ def extract_file_content(file_path):
 
 
 def generate_recipe(num_servings, food):
+    st.write(st.secrets["API_KEY"])
     response = openai.Completion.create(
     model="text-davinci-003",
     prompt="Write a recipe for" + food + "for" + str(num_servings) + "servings",
