@@ -2,3 +2,4 @@ data/
 __pycache__/
 api_key.txt
 
+resnext-101.pt
